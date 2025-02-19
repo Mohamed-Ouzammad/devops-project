@@ -10,7 +10,7 @@ export default defineConfig({
     setupFiles: './src/setupTests.js',
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['text', 'json', 'html', 'clover', 'cobertura', 'junit'],
       reportsDirectory: './coverage',
     },
   },

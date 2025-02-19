@@ -31,21 +31,21 @@ jobs:
         run: npm run build
 
       - name: Run tests
-        run: npm test -- --coverage
+        run: npm test -- --coverage --reporter=junit
 
       - name: Test Report
-        uses: dorny/test-reporter@v1 
+        uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
           name: Vitest Tests Results
           path: coverage/junit.xml
-          reporter: junit
+          reporter: jest-junit  
 
       - name: Update README with test results
         run: |
-          MARKER_START=""
-          MARKER_END=""
-          REPORT="$(cat coverage/clover.xml)" # Utilise le rapport Clover
+          MARKER_START="<!-- TEST_RESULTS_START -->"
+          MARKER_END="<!-- TEST_RESULTS_END -->"
+          REPORT="$(cat coverage/junit.xml)"
           sed -i "/$MARKER_START/,/$MARKER_END/ { /$MARKER_START/a\\$REPORT }" README.md
 
       - name: Commit changes
