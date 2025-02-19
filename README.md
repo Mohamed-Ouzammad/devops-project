@@ -11,4 +11,4 @@ Ce projet est destiné à valider les connaissances en DevOps des élèves de 3�
 
 ## Test Results
 
-[![CI](https://github.com/Mohamed-Ouzammad/devops-project/actions/workflows/ci.yml/badge.svg)](https://github.com/<USERNAME>/<REPOSITORY>/actions/workflows/ci.yml)
+[![CI](https://github.com/Mohamed-Ouzammad/devops-project/actions/workflows/ci.yml/badge.svg)](https://github.com/Mohamed-Ouzammad/devops-project/actions/workflows/ci.yml)
