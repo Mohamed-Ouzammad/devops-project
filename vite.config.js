@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
@@ -9,8 +9,9 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/setupTests.js',
     coverage: {
-      reporter: ['text', 'junit'],
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
       reportsDirectory: './coverage',
     },
   },
-})
+});
