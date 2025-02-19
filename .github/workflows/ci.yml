@@ -33,6 +33,9 @@ jobs:
       - name: Run tests
         run: npm test -- --coverage --reporter=junit
 
+      - name: Vérifier les fichiers générés
+        run: ls -R coverage
+
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()
