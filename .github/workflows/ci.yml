@@ -34,7 +34,7 @@ jobs:
         run: npm test -- --coverage
 
       - name: Test Report
-        uses: dorny/test-reporter@v2 # Utilisez la dernière version de l'action
+        uses: dorny/test-reporter@v1 
         if: success() || failure()
         with:
           name: Vitest Tests Results
