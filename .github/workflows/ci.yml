@@ -31,21 +31,21 @@ jobs:
         run: npm run build
 
       - name: Run tests
-        run: npm test -- --coverage 
+        run: npm test -- --coverage
 
       - name: Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2 # Utilisez la dernière version de l'action
         if: success() || failure()
         with:
           name: Vitest Tests Results
-          path: coverage/junit.xml 
-          reporter: junit 
+          path: coverage/junit.xml
+          reporter: junit
 
       - name: Update README with test results
         run: |
           MARKER_START=""
           MARKER_END=""
-          REPORT="$(cat coverage/clover.xml)" # Remplace par le rapport Clover pour plus de détails
+          REPORT="$(cat coverage/clover.xml)" # Utilise le rapport Clover
           sed -i "/$MARKER_START/,/$MARKER_END/ { /$MARKER_START/a\\$REPORT }" README.md
 
       - name: Commit changes
