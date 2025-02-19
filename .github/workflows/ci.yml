@@ -43,7 +43,7 @@ jobs:
         reporter: vitest-json
         output: markdown
     - name: Update README with test results
-      uses: peter-evans/find-replace@v6
+      uses: peter-evans/find-and-replace@v2
       with:
         file-filter: 'README.md'
         pattern: '(.*)'
