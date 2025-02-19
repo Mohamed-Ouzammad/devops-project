@@ -13,43 +13,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Run ESLint
-      run: npm run lint
+      - name: Run ESLint
+        run: npm run lint
 
-    - name: Build project
-      run: npm run build
+      - name: Build project
+        run: npm run build
 
-    - name: Run tests
-      run: npm test -- --reporter=json --outputFile=results.json
+      - name: Run tests
+        run: npm test -- --coverage 
 
-    - name: Test Report
-      uses: dorny/test-reporter@v1
-      if: success() || failure()
-      with:
-        name: Vitest Tests Results
-        path: results.json
-        reporter: vitest-json
-        output: markdown
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Vitest Tests Results
+          path: coverage/junit.xml 
+          reporter: junit 
 
-    - name: Update README with test results
-      run: |
-        MARKER_START=""
-        MARKER_END=""
-        REPORT="$(echo "${{ steps.test-report.outputs.report }}" | sed 's/[\/&]/\\&/g')"
-        sed -i "/$MARKER_START/,/$MARKER_END/ { /$MARKER_START/a\\$REPORT }" README.md
+      - name: Update README with test results
+        run: |
+          MARKER_START=""
+          MARKER_END=""
+          REPORT="$(cat coverage/clover.xml)" # Remplace par le rapport Clover pour plus de détails
+          sed -i "/$MARKER_START/,/$MARKER_END/ { /$MARKER_START/a\\$REPORT }" README.md
 
-    - name: Commit changes
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: 'Update README with test results'
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Update README with test results'
