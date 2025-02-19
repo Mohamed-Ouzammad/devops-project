@@ -23,7 +23,6 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-      # S'assurer que les devDependencies sont installées
 
     - name: Run ESLint
       run: npm run lint
@@ -32,23 +31,23 @@ jobs:
       run: npm run build
 
     - name: Run tests
-      run: npm test -- --reporter=json --outputFile=results.json # Génère un rapport JSON
+      run: npm test -- --reporter=json --outputFile=results.json
 
     - name: Test Report
       uses: dorny/test-reporter@v1
-      if: success() || failure() # S'exécute même si les tests échouent
+      if: success() || failure()
       with:
         name: Vitest Tests Results
         path: results.json
         reporter: vitest-json
         output: markdown
+
     - name: Update README with test results
-      uses: peter-evans/find-and-replace@v1
-      with:
-        file-filter: 'README.md'
-        pattern: '(.*)'
-        replace: '\n${{ steps.test-report.outputs.report }}\n'
-        multiline: true
+      run: |
+        MARKER_START=""
+        MARKER_END=""
+        REPORT="$(echo "${{ steps.test-report.outputs.report }}" | sed 's/[\/&]/\\&/g')"
+        sed -i "/$MARKER_START/,/$MARKER_END/ { /$MARKER_START/a\\$REPORT }" README.md
 
     - name: Commit changes
       uses: stefanzweifel/git-auto-commit-action@v5
